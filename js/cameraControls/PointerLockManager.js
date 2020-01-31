@@ -1,4 +1,5 @@
-function PointerLockManager(camera, scene, collisionManager) {
+function PointerLockManager( camera, scene, collisionManager ) {
+
 	let controls;
 
 	const blocker = document.getElementById( 'blocker' );
@@ -7,24 +8,33 @@ function PointerLockManager(camera, scene, collisionManager) {
 	const havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
 	if ( havePointerLock ) {
+
 		const element = document.body;
-		
+
 		const pointerlockchange = function ( event ) {
+
 			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+
 				controls.enabled = true;
 				blocker.style.display = 'none';
+
 			} else {
+
 				controls.enabled = false;
 				// blocker.style.display = '-webkit-box';
 				// blocker.style.display = '-moz-box';
 				// blocker.style.display = 'box';
 				// instructions.style.display = '';
 				blocker.style.display = '';
+
 			}
+
 		};
 		const pointerlockerror = function ( event ) {
+
 			// instructions.style.display = '';
 			instructions.innerHTML = 'error';
+
 		};
 
 		// Hook pointer lock state change events
@@ -35,7 +45,7 @@ function PointerLockManager(camera, scene, collisionManager) {
 		document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
 		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 		blocker.addEventListener( 'click', function ( event ) {
-			
+
 			blocker.style.display = 'none';
 
 			// Ask the browser to lock the pointer
@@ -43,11 +53,14 @@ function PointerLockManager(camera, scene, collisionManager) {
 			element.requestPointerLock();
 
 		}, false );
+
 	} else {
+
 		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+
 	}
 
-	init(camera);
+	init( camera );
 
 	let moveForward = false;
 	let moveBackward = false;
@@ -56,12 +69,15 @@ function PointerLockManager(camera, scene, collisionManager) {
 
 	const velocity = new THREE.Vector3();
 
-	function init(camera) {
-		controls = new THREE.PointerLockControls(camera);
-		scene.add(controls.getObject());
+	function init( camera ) {
+
+		controls = new THREE.PointerLockControls( camera );
+		scene.add( controls.getObject() );
 
 		var onKeyDown = function ( event ) {
+
 			switch ( event.keyCode ) {
+
 				case 38: // up
 				case 87: // w
 					moveForward = true;
@@ -81,10 +97,14 @@ function PointerLockManager(camera, scene, collisionManager) {
 					// if ( canJump === true ) velocity.y += 350;
 					// canJump = false;
 					break;
+
 			}
+
 		};
 		var onKeyUp = function ( event ) {
-			switch( event.keyCode ) {
+
+			switch ( event.keyCode ) {
+
 				case 38: // up
 				case 87: // w
 					moveForward = false;
@@ -101,17 +121,21 @@ function PointerLockManager(camera, scene, collisionManager) {
 				case 68: // d
 					moveRight = false;
 					break;
+
 			}
+
 		};
 
 		document.addEventListener( 'keydown', onKeyDown, false );
 		document.addEventListener( 'keyup', onKeyUp, false );
+
 	}
 
 	const speed = 150;
 	const deltaTime = 0.06;
 
-	this.update = function() {
+	this.update = function () {
+
 		if ( controls.enabled ) {
 
 			velocity.x -= velocity.x * 10.0 * deltaTime;
@@ -124,10 +148,15 @@ function PointerLockManager(camera, scene, collisionManager) {
 
 			controls.getObject().translateX( velocity.x * deltaTime );
 			controls.getObject().translateZ( velocity.z * deltaTime );
-		}
-	}
 
-	this.getObject = function() {
+		}
+
+	};
+
+	this.getObject = function () {
+
 		return controls.getObject();
-	}
+
+	};
+
 }

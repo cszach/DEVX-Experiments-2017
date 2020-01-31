@@ -1,4 +1,4 @@
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById( "canvas" );
 
 window.onresize = resizeCanvas;
 
@@ -9,46 +9,60 @@ resizeCanvas();
 const eventBus = new EventBus();
 
 const notesGenerator = new NotesGenerator();
-const backgroundTuneGenerator = new BackgroundTuneGenerator(notesGenerator);
+const backgroundTuneGenerator = new BackgroundTuneGenerator( notesGenerator );
 const viewFinderManager = new ViewFinderManager();
-var sceneManager = new SceneManager(canvas);
+var sceneManager = new SceneManager( canvas );
 
-const intro = document.getElementsByClassName('intro')[0];
-const blocker = document.getElementById("blocker");
+const intro = document.getElementsByClassName( 'intro' )[ 0 ];
+const blocker = document.getElementById( "blocker" );
 
-blocker.addEventListener("click", () => { notesGenerator.startButtonClicked().then(backgroundTuneGenerator.start) } );
+blocker.addEventListener( "click", () => {
+
+	notesGenerator.startButtonClicked().then( backgroundTuneGenerator.start );
+
+} );
 
 function fadeOverlay() {
 
-	setTimeout(function() {
-		intro.classList.add('fade');
+	setTimeout( function () {
 
-		setTimeout(function() {
-			blocker.classList.add('go-on-top');
-		}, 2200);
+		intro.classList.add( 'fade' );
 
-		setTimeout(function() { 
-			intro.parentNode.removeChild(intro);
-		}, 4000);
-		
-	}, 1000);
+		setTimeout( function () {
+
+			blocker.classList.add( 'go-on-top' );
+
+		}, 2200 );
+
+		setTimeout( function () {
+
+			intro.parentNode.removeChild( intro );
+
+		}, 4000 );
+
+	}, 1000 );
+
 }
 
 fadeOverlay();
 
 render();
 
-function render(time) {
-    requestAnimationFrame(render);
-    TWEEN.update(time);
-    sceneManager.update();
+function render( time ) {
+
+	requestAnimationFrame( render );
+	TWEEN.update( time );
+	sceneManager.update();
+
 }
 
 function resizeCanvas() {
-    var canvas = document.getElementById("canvas");
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
 
-    if(sceneManager)
-        sceneManager.onWindowResize();
+	var canvas = document.getElementById( "canvas" );
+	canvas.style.width = window.innerWidth + "px";
+	canvas.style.height = window.innerHeight + "px";
+
+	if ( sceneManager )
+		sceneManager.onWindowResize();
+
 }
